@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "nprogress/nprogress.css";
+
+#nprogress .bar {
+  background: #ef857d !important;
+}
+
+.home-form input,
+.home-form .ant-input-outlined {
+  background-color: transparent;
+}
