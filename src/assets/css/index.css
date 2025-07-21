@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "nprogress/nprogress.css";
+@import 'tailwindcss';
+@import 'nprogress/nprogress.css';
 
 #nprogress .bar {
   background: #ef857d !important;

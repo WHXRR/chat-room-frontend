@@ -9,7 +9,7 @@ interface StoreState {
 
 const useStore = create<StoreState>()(
   persist(
-    set => ({
+    (set) => ({
       userInfo: {
         username: '',
         headPic: 'baimao',
@@ -19,13 +19,13 @@ const useStore = create<StoreState>()(
         token: '',
         updateTime: '',
       },
-      updateUserInfo: (data) => set({ userInfo: data })
+      updateUserInfo: (data) => set({ userInfo: data }),
     }),
     {
       name: 'moyushuang',
-      partialize: state => ({ userInfo: state.userInfo })
-    }
-  )
+      partialize: (state) => ({ userInfo: state.userInfo }),
+    },
+  ),
 )
 
 export default useStore
