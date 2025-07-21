@@ -1,5 +1,3 @@
 export function Tools() {
-  return <div>
-    11
-  </div>
+  return <div>11</div>
 }

@@ -3,19 +3,20 @@ import { App, Form } from 'antd';
 import { useState } from 'react';
 import type { FormProps } from 'antd';
 import { login, register, updatePassword } from '@/interfaces/api';
-import { useForm } from 'antd/es/form/Form';
 import type { LoginFormValue, RegisterUser, UpdatePassword } from '@/types/user';
 import { useNavigate } from 'react-router-dom';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { ForgetPasswordForm } from './ForgetPasswordForm';
+import useStore from '@/store';
 
 export default function Home() {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
   const [type, setType] = useState('login')
-  const [form] = useForm();
+  const [form] = Form.useForm();
+  const { updateUserInfo } = useStore()
   const onFinish: FormProps['onFinish'] = (values) => {
     if (type === 'login') {
       userLogin(values);
@@ -31,6 +32,7 @@ export default function Home() {
       const res = await login(values);
       if (res.status === 201 || res.status === 200) {
         message.success('登录成功');
+        updateUserInfo(res.data)
         setTimeout(() => {
           navigate('/chatroom');
         }, 500);

@@ -1,11 +1,12 @@
-const images = import.meta.glob('@/assets/images/avatar/*.svg', {
-  eager: true,
-  import: 'default',
-});
+import { Avatar, type AvatarType } from "@/components/Avatar";
 
 export function OnlineUser() {
 
-  const users = [
+  type User = {
+    username: string;
+    headPic: AvatarType
+  }
+  const users: User[] = [
     {
       username: 'test1test1',
       headPic: 'baimao'
@@ -40,12 +41,11 @@ export function OnlineUser() {
     },
   ]
 
-  return <div className="grid grid-cols-4 gap-3">
+  return <div className="grid grid-cols-4 gap-3" >
     {
       users.map((item, index) => {
-        const imgSrc = images[`/src/assets/images/avatar/${item.headPic}.svg`] as string;
-        return <div className="text-xs text-center" title={item.username}>
-          <img key={index} src={imgSrc} alt={item.headPic} className="w-7 mx-auto" />
+        return <div className="text-xs text-center" title={item.username} key={index}>
+          <Avatar headPic={item.headPic} className="w-7 mx-auto" />
           <div className="pt-0.5 relative px-2">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-green-500 rounded-full"></div>
             <div className="overflow-hidden text-ellipsis flex-1 leading-none">{item.username}</div>
@@ -53,5 +53,5 @@ export function OnlineUser() {
         </div>;
       })
     }
-  </div>
+  </div >
 }

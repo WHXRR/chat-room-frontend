@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import WithSuspense from '@/components/WithSuspense';
 import { lazy } from 'react';
+import PrivateRoute from '@/components/PrivateRoute';
 
 const Home = lazy(() => import('@/pages/Home'));
 const Chatroom = lazy(() => import('@/pages/Chatroom'));
@@ -8,11 +9,19 @@ const Chatroom = lazy(() => import('@/pages/Chatroom'));
 export const routes = [
   {
     path: '/',
-    element: WithSuspense(<Home />),
+    element: (
+      <PrivateRoute>
+        {WithSuspense(<Home />)}
+      </PrivateRoute>
+    ),
   },
   {
     path: '/chatroom',
-    element: WithSuspense(<Chatroom />),
+    element: (
+      <PrivateRoute>
+        {WithSuspense(<Chatroom />)}
+      </PrivateRoute>
+    ),
   },
 ];
 

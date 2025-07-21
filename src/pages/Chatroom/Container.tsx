@@ -1,5 +1,3 @@
 export function Container() {
-  return <div>
-    22
-  </div>
+  return <div>22</div>
 }

@@ -1,4 +1,4 @@
-import type { LoginFormValue, RegisterUser, UpdatePassword } from "@/types/user";
+import type { LoginFormValue, RegisterUser, UpdatePassword, UpdateUserInfoType } from "@/types/user";
 import { axiosInstance } from ".";
 
 export async function login(loginUser: LoginFormValue) {
@@ -27,4 +27,12 @@ export async function updatePasswordCaptcha(email: string) {
 
 export async function updatePassword(data: UpdatePassword) {
   return await axiosInstance.post('/user/update-password', data);
+}
+
+export async function getUserInfo() {
+  return await axiosInstance.get('/user/info');
+}
+
+export async function updateInfo(data: UpdateUserInfoType) {
+  return await axiosInstance.post('/user/update', data);
 }
