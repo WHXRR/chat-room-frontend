@@ -1,8 +1,9 @@
 import { RouterProvider } from 'react-router-dom'
 import { router } from '@/router'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, App } from 'antd'
+import BGImage from '@/assets/images/bg.webp'
 
-export function App() {
+export function Root() {
   return <>
     <ConfigProvider
       theme={{
@@ -12,7 +13,9 @@ export function App() {
         },
       }}
     >
-      <RouterProvider router={router} />
+      <App className='w-screen h-screen bg-cover bg-[#fbf7f4]' style={{ backgroundImage: `url(${BGImage})` }}>
+        <RouterProvider router={router} />
+      </App>
     </ConfigProvider>
   </>
 }

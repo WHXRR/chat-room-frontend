@@ -11,7 +11,7 @@ export const routes = [
     element: WithSuspense(<Home />),
   },
   {
-    path: 'chatroom',
+    path: '/chatroom',
     element: WithSuspense(<Chatroom />),
   },
 ];
