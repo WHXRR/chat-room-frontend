@@ -1,4 +1,5 @@
 import { Avatar, type AvatarType } from '@/components/Avatar'
+import './OnlineUser.css'
 
 export function OnlineUser() {
   type User = {
@@ -51,7 +52,8 @@ export function OnlineUser() {
           >
             <Avatar headPic={item.headPic} className="w-7 mx-auto" />
             <div className="pt-0.5 relative px-2">
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-green-500 rounded-full"></div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-green-500 rounded-full online-dot"></div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-red-500 rounded-full"></div>
               <div className="overflow-hidden text-ellipsis flex-1 leading-none">
                 {item.username}
               </div>

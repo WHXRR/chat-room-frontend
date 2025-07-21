@@ -10,7 +10,8 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   const { userInfo } = useStore()
   const location = useLocation()
 
-  if (!userInfo.token) return <Navigate to="/" replace />
+  if (!userInfo.token && location.pathname !== '/')
+    return <Navigate to="/" replace />
   if (userInfo.token && location.pathname === '/')
     return <Navigate to="/chatroom" replace />
 
