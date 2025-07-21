@@ -5,6 +5,7 @@ import PrivateRoute from '@/components/PrivateRoute'
 
 const Home = lazy(() => import('@/pages/Home'))
 const Chatroom = lazy(() => import('@/pages/Chatroom'))
+const NotFound = lazy(() => import('@/pages/404'))
 
 export const routes = [
   {
@@ -14,6 +15,10 @@ export const routes = [
   {
     path: '/chatroom',
     element: <PrivateRoute>{WithSuspense(<Chatroom />)}</PrivateRoute>,
+  },
+  {
+    path: '*',
+    element: WithSuspense(<NotFound />),
   },
 ]
 
