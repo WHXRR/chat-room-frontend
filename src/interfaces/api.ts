@@ -41,3 +41,15 @@ export async function getUserInfo() {
 export async function updateInfo(data: UpdateUserInfoType) {
   return await axiosInstance.post('/user/update', data)
 }
+
+export async function getHistoryMessage(chatroomId: number) {
+  return await axiosInstance.get('/chat-history/list', {
+    params: {
+      chatroomId,
+    },
+  })
+}
+
+export async function getChatroomInfo(chatroomId: number) {
+  return await axiosInstance.get(`/chatroom/info/${chatroomId}`)
+}

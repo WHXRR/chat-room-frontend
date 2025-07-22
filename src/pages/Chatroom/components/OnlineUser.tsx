@@ -1,49 +1,14 @@
-import { Avatar, type AvatarType } from '@/components/Avatar'
+import { Avatar } from '@/components/Avatar'
 import './OnlineUser.css'
+import { useContext } from 'react'
+import { ChatroomContext } from '@/context/ChatroomContext'
 
 export function OnlineUser() {
-  type User = {
-    username: string
-    headPic: AvatarType
-  }
-  const users: User[] = [
-    {
-      username: 'test1test1',
-      headPic: 'baimao',
-    },
-    {
-      username: 'test2',
-      headPic: 'bianmu',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-    {
-      username: 'test3',
-      headPic: 'buoumao',
-    },
-  ]
+  const chatroomInfo = useContext(ChatroomContext)
 
   return (
     <div className="grid grid-cols-4 gap-3">
-      {users.map((item, index) => {
+      {chatroomInfo?.users.map((item, index) => {
         return (
           <div
             className="text-xs text-center"

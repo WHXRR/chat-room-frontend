@@ -32,7 +32,7 @@ export function Avatar({
   className,
 }: {
   headPic: AvatarType
-  className: string
+  className?: string
 }) {
   const imgSrc = images[`/src/assets/images/avatar/${headPic}.svg`] as string
   return <img src={imgSrc} alt={headPic} className={className} />

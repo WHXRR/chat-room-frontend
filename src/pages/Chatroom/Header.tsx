@@ -4,9 +4,10 @@ import useStore from '@/store'
 import type { UpdateUserInfoType } from '@/types/user'
 import getAllAvatar from '@/utils/getAllAvatar'
 import { App, Button, Form, Input, Modal, type FormProps } from 'antd'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CatImage from '@/assets/images/cat.png'
+import { ChatroomContext } from '@/context/ChatroomContext'
 
 export function Header() {
   const { message } = App.useApp()
@@ -89,9 +90,11 @@ export function Header() {
     }
   }, [])
 
+  const chatroomInfo = useContext(ChatroomContext)
+
   return (
     <div className="flex justify-between">
-      <div className="text-xl font-bold py-2">测试群聊</div>
+      <div className="text-xl font-bold py-2">{chatroomInfo?.name}</div>
       <div
         className="flex-1 mx-4 overflow-hidden self-end"
         ref={catContainerRef}
