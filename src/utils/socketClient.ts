@@ -14,7 +14,7 @@ let socket: Socket | null = null
 export function initSocket(userInfo: UserInfo, chatroomId: number) {
   if (socket) return socket
 
-  socket = io('http://localhost:3001', {
+  socket = io(import.meta.env.VITE_SOCKET_URL, {
     transports: ['websocket'],
     reconnection: true,
     reconnectionAttempts: 5,

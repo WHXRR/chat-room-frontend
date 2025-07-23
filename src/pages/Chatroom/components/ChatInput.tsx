@@ -1,32 +1,32 @@
 import useStore from '@/store'
 import type { SendMessagePayload } from '@/types/chat'
 import { getSocket } from '@/utils/socketClient'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
+import ChatEmoji from './ChatEmoji'
+import { insertEmoji, transformEmojiHtmlToText } from '@/utils/insertEmoji'
 
 export function ChatInput() {
   const { userInfo } = useStore()
   const socket = getSocket()
-
-  const [value, setValue] = useState('')
+  const inputRef = useRef<HTMLDivElement>(null)
   const sendMessage = () => {
-    const trimmed = value.trim()
-    if (!trimmed) return
+    if (!inputRef.current) return
+    const html = inputRef.current.innerHTML
+    const text = transformEmojiHtmlToText(html).trim()
+    if (!text) return
 
     const payload: SendMessagePayload = {
       userId: userInfo.id,
       chatroomId: 1,
       message: {
         type: 'text',
-        content: trimmed,
+        content: text,
       },
     }
-    if (socket) {
-      socket.emit('sendMessage', payload)
-    }
-    setValue('')
+    socket?.emit('sendMessage', payload)
+    inputRef.current.innerHTML = ''
   }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
       if (e.shiftKey) return
       e.preventDefault()
@@ -34,20 +34,38 @@ export function ChatInput() {
     }
   }
 
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
+  // 处理光标
+  const savedRange = useRef<Range | null>(null)
+  const saveSelection = () => {
+    const selection = window.getSelection()
+    if (selection && selection.rangeCount > 0) {
+      savedRange.current = selection.getRangeAt(0).cloneRange()
     }
-  }, [])
+  }
+  // 插入表情
+  const handleSelectEmoji = useCallback(
+    (emoji: { name: string; src: string }) => {
+      if (savedRange.current && inputRef.current) {
+        insertEmoji(emoji, savedRange.current, inputRef.current)
+      }
+    },
+    [savedRange],
+  )
+
   return (
-    <textarea
-      className="w-full outline-none h-full resize-none"
-      placeholder="enter 发送，shift + enter 换行"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      onKeyDown={handleKeyDown}
-      ref={inputRef}
-    ></textarea>
+    <div className="h-full flex flex-col">
+      <div className="flex pb-2">
+        <ChatEmoji onSelectEmoji={handleSelectEmoji} />
+      </div>
+      <div
+        ref={inputRef}
+        contentEditable
+        className="flex-1 outline-none"
+        onClick={saveSelection}
+        onKeyUp={saveSelection}
+        onMouseUp={saveSelection}
+        onKeyDown={handleKeyDown}
+      ></div>
+    </div>
   )
 }

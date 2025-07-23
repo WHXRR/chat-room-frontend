@@ -26,7 +26,7 @@ export default function Chatroom() {
   }
 
   useEffect(() => {
-    initSocket(userInfo, 1)
+    initSocket(userInfo, import.meta.env.VITE_CHATROOM_ID)
     getRoomInfo()
     return () => {
       disconnectSocket()
