@@ -53,3 +53,9 @@ export async function getHistoryMessage(chatroomId: number) {
 export async function getChatroomInfo(chatroomId: number) {
   return await axiosInstance.get(`/chatroom/info/${chatroomId}`)
 }
+
+export async function addChatroom(chatroomId: number) {
+  return await axiosInstance.get(`/chatroom/join`, {
+    params: { chatroomId },
+  })
+}

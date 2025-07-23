@@ -1,7 +1,11 @@
 import useStore from '@/store'
 import { message } from 'antd'
-import axios from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 import NProgress from 'nprogress'
+
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  hiddenTips?: boolean
+}
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3001/',
@@ -32,8 +36,11 @@ axiosInstance.interceptors.response.use(
     return res
   },
   (error) => {
+    const config = error.config as CustomAxiosRequestConfig
     const { data } = error.response
-    message.error(data.message)
+    if (!config.hiddenTips) {
+      message.error(data.message)
+    }
     if (data.statusCode === 401) {
       setTimeout(() => {
         window.location.href = '/'

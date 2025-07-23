@@ -1,11 +1,11 @@
-import { SocketContext } from '@/context/SocketContext'
 import useStore from '@/store'
 import type { SendMessagePayload } from '@/types/chat'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { getSocket } from '@/utils/socketClient'
+import { useEffect, useRef, useState } from 'react'
 
 export function ChatInput() {
   const { userInfo } = useStore()
-  const socket = useContext(SocketContext)
+  const socket = getSocket()
 
   const [value, setValue] = useState('')
   const sendMessage = () => {

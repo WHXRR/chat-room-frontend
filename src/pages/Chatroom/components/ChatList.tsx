@@ -1,49 +1,44 @@
 import { ChatBox } from '@/components/ChatBox'
-import { SocketContext } from '@/context/SocketContext'
 import { getHistoryMessage } from '@/interfaces/api'
-import type { HistoryMessage, JoinRoom, SendMessage } from '@/types/chat'
-import { message } from 'antd'
-import { useContext, useEffect, useState } from 'react'
+import useStore from '@/store'
+import type { HistoryMessage } from '@/types/chat'
+import { useEffect, useRef, useState } from 'react'
 
 export function ChatList() {
   const [historyMessageList, setHistoryMessageList] = useState<
     Array<HistoryMessage>
   >([])
-  const socket = useContext(SocketContext)
+  const { messageList } = useStore()
 
   const getChatHistory = async () => {
     try {
       const res = await getHistoryMessage(1)
-
       if (res.status === 201 || res.status === 200) {
         setHistoryMessageList(res.data)
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.warning(e.response?.data?.message || '系统繁忙，请稍后再试')
+    } catch (e) {
+      console.warn(e)
     }
   }
 
-  const [messageList, setMessageList] = useState<Array<SendMessage | JoinRoom>>(
-    [],
-  )
   useEffect(() => {
     getChatHistory()
-    if (socket) {
-      socket.on('message', (message: SendMessage | JoinRoom) => {
-        setMessageList((msg) => [...msg, message])
-      })
-    }
-  }, [socket])
+  }, [])
+
+  const bottomRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [historyMessageList, messageList])
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-full p-4 overflow-y-auto">
       {historyMessageList.map((item) => (
-        <ChatBox key={item.id} {...item} />
+        <ChatBox key={item.id} {...item} type="historyMessage" />
       ))}
       {messageList.map((item, index) => (
         <ChatBox key={index} {...item} />
       ))}
+      <div ref={bottomRef} />
     </div>
   )
 }

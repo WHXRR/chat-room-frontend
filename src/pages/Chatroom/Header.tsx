@@ -5,13 +5,12 @@ import type { UpdateUserInfoType } from '@/types/user'
 import getAllAvatar from '@/utils/getAllAvatar'
 import { App, Button, Form, Input, Modal, type FormProps } from 'antd'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import CatImage from '@/assets/images/cat.png'
 import { ChatroomContext } from '@/context/ChatroomContext'
 
 export function Header() {
   const { message } = App.useApp()
-  const { userInfo, updateUserInfo } = useStore()
+  const { userInfo, updateUserInfo, clearUserInfo } = useStore()
 
   const [userConfigModal, setUserConfigModal] = useState(false)
   const handleOk = () => {}
@@ -45,34 +44,30 @@ export function Header() {
   }
 
   const getInfo = async () => {
-    const res = await getUserInfo()
-    if (res.status === 201 || res.status === 200) {
-      updateUserInfo({
-        ...userInfo,
-        ...res.data,
-      })
-      form.setFieldsValue({
-        headPic: res.data.headPic,
-        username: res.data.username,
-      })
+    try {
+      const res = await getUserInfo()
+      if (res.status === 201 || res.status === 200) {
+        updateUserInfo({
+          ...userInfo,
+          ...res.data,
+          headPic: res.data.headPic || 'baimao',
+        })
+        form.setFieldsValue({
+          headPic: res.data.headPic,
+          username: res.data.username,
+        })
+      }
+    } catch (e) {
+      console.warn(e)
+      clearUserInfo()
     }
   }
   useEffect(() => {
     getInfo()
   }, [])
 
-  const navigate = useNavigate()
   const logout = () => {
-    updateUserInfo({
-      username: '',
-      headPic: 'baimao',
-      createTime: '',
-      email: '',
-      id: 0,
-      token: '',
-      updateTime: '',
-    })
-    navigate('/')
+    clearUserInfo()
   }
 
   const catContainerRef = useRef<HTMLDivElement>(null)

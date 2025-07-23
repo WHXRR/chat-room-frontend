@@ -1,9 +1,15 @@
-import type { HistoryMessage, JoinRoom, SendMessage } from '@/types/chat'
+import type {
+  HistoryMessage,
+  JoinRoomMessageType,
+  SendMessage,
+} from '@/types/chat'
 import { Avatar } from './Avatar'
 import useStore from '@/store'
 import { useEffect, useRef, useState } from 'react'
 
-export function ChatBox(props: HistoryMessage | SendMessage | JoinRoom) {
+export function ChatBox(
+  props: HistoryMessage | SendMessage | JoinRoomMessageType,
+) {
   const { type } = props
   const { userInfo } = useStore()
 
@@ -26,14 +32,16 @@ export function ChatBox(props: HistoryMessage | SendMessage | JoinRoom) {
       },
     )
     observer.observe(el)
+
     return () => observer.disconnect()
   }, [])
 
   return (
     <div>
-      {type === 'joinRoom' ? (
+      {type === 'joinRoom' && (
         <div className="text-center text-sm">{props.username}进入了房间</div>
-      ) : (
+      )}
+      {type === 'historyMessage' || type === 'sendMessage' ? (
         <div
           ref={boxRef}
           className={`flex gap-2 ${isVisible ? 'show' : ''} ${
@@ -47,7 +55,7 @@ export function ChatBox(props: HistoryMessage | SendMessage | JoinRoom) {
           )}
           <div className="bg-[#ff9e97] p-2 rounded-lg">{props.content}</div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

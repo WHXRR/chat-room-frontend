@@ -31,15 +31,14 @@ export default function Home() {
     try {
       const res = await login(values)
       if (res.status === 201 || res.status === 200) {
-        message.success('登录成功')
+        // message.success('登录成功')
         updateUserInfo(res.data)
         setTimeout(() => {
           navigate('/chatroom')
         }, 500)
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.error(e.response?.data?.message || '系统繁忙，请稍后再试')
+    } catch (e) {
+      console.warn(e)
     }
   }
 
@@ -49,15 +48,14 @@ export default function Home() {
         return message.warning('两次密码不一致')
       const res = await register(values)
       if (res.status === 201 || res.status === 200) {
-        message.success('注册成功')
+        // message.success('注册成功')
         userLogin({
           email: values.email,
           password: values.password,
         })
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.error(e.response?.data?.message || '系统繁忙，请稍后再试')
+    } catch (e) {
+      console.warn(e)
     }
   }
 
@@ -68,10 +66,10 @@ export default function Home() {
       const res = await updatePassword(values)
       if (res.status === 201 || res.status === 200) {
         message.success('修改成功')
+        setType('login')
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.error(e.response?.data?.message || '系统繁忙，请稍后再试')
+    } catch (e) {
+      console.warn(e)
     }
   }
 

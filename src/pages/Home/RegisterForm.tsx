@@ -27,9 +27,8 @@ export function RegisterForm({
           setTime((time) => time - 1)
         }, 1000)
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.error(e.response?.data?.message || '系统繁忙，请稍后再试')
+    } catch (e) {
+      console.warn(e)
     }
   }
   useEffect(() => {

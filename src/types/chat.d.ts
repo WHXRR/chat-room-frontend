@@ -48,11 +48,24 @@ export interface SendMessage {
   }
 }
 
-export interface JoinRoom {
+export interface JoinRoomUserType {
+  chatroomId: number
+  userId: number
+  username: string
+}
+
+export interface JoinRoomMessageType {
   type: 'joinRoom'
   chatroomId: number
   userId: number
   username: string
+}
+
+export interface ReceiveJoinRoomType {
+  chatroomId: number
+  userId: number
+  username: string
+  users: UserInfo[]
 }
 
 export interface ChatroomInfo {
