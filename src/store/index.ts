@@ -9,6 +9,7 @@ interface StoreState {
   clearUserInfo: () => void
   messageList: (SendMessage | JoinRoomMessageType)[]
   updateMessageList: (msg: SendMessage | JoinRoomMessageType) => void
+  clearMessageList: () => void
   onlineUserIds: number[]
   updateOnlineUserIds: (data: number[]) => void
   chatroomUsers: UserInfo[]
@@ -44,6 +45,10 @@ const useStore = create<StoreState>()(
       updateMessageList: (msg: SendMessage | JoinRoomMessageType) =>
         set({
           messageList: [...get().messageList, msg],
+        }),
+      clearMessageList: () =>
+        set({
+          messageList: [],
         }),
       onlineUserIds: [],
       updateOnlineUserIds: (data: number[]) =>
