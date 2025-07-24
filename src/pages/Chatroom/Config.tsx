@@ -1,9 +1,9 @@
-import { OnlineUser } from '@/pages/Chatroom/components/OnlineUser'
+import { ChatroomMembers } from '@/pages/Chatroom/components/ChatroomMembers'
 
 export function Config() {
   return (
     <div>
-      <OnlineUser />
+      <ChatroomMembers />
     </div>
   )
 }

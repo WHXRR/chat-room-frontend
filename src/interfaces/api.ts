@@ -60,6 +60,15 @@ export async function getChatroomInfo(chatroomId: number) {
   return await axiosInstance.get(`/chatroom/info/${chatroomId}`)
 }
 
+export async function getChatroomMembers(chatroomId: number, limit?: number) {
+  return await axiosInstance.get(`/chatroom/members`, {
+    params: {
+      chatroomId,
+      limit,
+    },
+  })
+}
+
 export async function addChatroom(chatroomId: number) {
   return await axiosInstance.get(`/chatroom/join`, {
     params: { chatroomId },
