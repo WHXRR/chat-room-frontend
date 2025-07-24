@@ -13,7 +13,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   if (!userInfo.token && location.pathname !== '/')
     return <Navigate to="/" replace />
   if (userInfo.token && location.pathname === '/')
-    return <Navigate to="/chatroom" replace />
+    return <Navigate to="/home" replace />
 
   return <>{children}</>
 }

@@ -5,6 +5,7 @@ import { Modal } from 'antd'
 import { useState } from 'react'
 import type { UserInfo } from '@/types/user'
 import { getChatroomMembers } from '@/interfaces/api'
+import { useParams } from 'react-router-dom'
 
 const UserDisplay = (props: UserInfo) => {
   const { onlineUserIds } = useStore()
@@ -29,9 +30,9 @@ export function ChatroomMembers() {
   const { chatroomUsers } = useStore()
 
   const [members, setMembers] = useState<UserInfo[]>([])
-  const getMembers = async () => {
+  const getMembers = async (id: string) => {
     try {
-      const res = await getChatroomMembers(import.meta.env.VITE_CHATROOM_ID)
+      const res = await getChatroomMembers(+id)
       if (res.status === 200 || res.status === 201) {
         setMembers(res.data)
       }
@@ -42,9 +43,12 @@ export function ChatroomMembers() {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const { id } = useParams()
   const showModal = () => {
-    getMembers()
-    setIsModalOpen(true)
+    if (id) {
+      getMembers(id)
+      setIsModalOpen(true)
+    }
   }
 
   const handleCancel = () => {

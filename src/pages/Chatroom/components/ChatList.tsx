@@ -3,6 +3,7 @@ import { getHistoryMessage } from '@/interfaces/api'
 import useStore from '@/store'
 import type { HistoryMessage } from '@/types/chat'
 import { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 export function ChatList() {
   const [historyMessageList, setHistoryMessageList] = useState<
@@ -11,11 +12,12 @@ export function ChatList() {
   const [offset, setOffset] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const [loading, setLoading] = useState(false)
+  const { id } = useParams()
   const getChatHistory = async () => {
-    if (loading || !hasMore) return
+    if (loading || !hasMore || !id) return
     setLoading(true)
     try {
-      const res = await getHistoryMessage(1, offset, 10)
+      const res = await getHistoryMessage(+id, offset, 10)
       if (res.status === 200 || res.status === 201) {
         const newMessages = res.data.data.reverse() || []
         setHistoryMessageList((prev) => [...newMessages, ...prev])

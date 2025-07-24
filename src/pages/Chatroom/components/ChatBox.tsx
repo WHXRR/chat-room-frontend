@@ -42,7 +42,7 @@ export function ChatBox(
       {type === 'joinRoom' && (
         <div className="text-center text-sm">{props.username}进入了房间</div>
       )}
-      {type === 'historyMessage' || type === 'sendMessage' ? (
+      {(type === 'historyMessage' || type === 'sendMessage') && props.sender ? (
         <div
           ref={boxRef}
           className={`flex gap-2 items-start group ${isVisible ? 'show' : ''} ${
@@ -60,7 +60,7 @@ export function ChatBox(
             <div
               className={`flex gap-2 items-end text-xs leading-none pb-2 ${props.sender?.id === userInfo.id ? 'flex-row-reverse' : ''}`}
             >
-              <div>{props.sender.username}</div>
+              <div>{props.sender?.username}</div>
               <div className="text-[10px] leading-none text-gray-400 opacity-0 transition-all group-hover:opacity-100">
                 {new Date(props.createTime).toLocaleString()}
               </div>

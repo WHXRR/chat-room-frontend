@@ -26,7 +26,7 @@ export interface HistoryMessage {
   userId: number
   createTime: Date
   updateTime: Date
-  sender: {
+  sender?: {
     id: number
     createTime: Date
     username: string
@@ -39,7 +39,7 @@ export interface SendMessage {
   type: 'sendMessage'
   content: string
   createTime: Date
-  sender: {
+  sender?: {
     id: number
     createTime: Date
     username: string
@@ -74,4 +74,12 @@ export interface ChatroomInfo {
   name: string
   updateTime: Date
   users: UserInfo[]
+}
+
+export interface Chatroom {
+  createTime: Date
+  id: number
+  name: string
+  updateTime: Date
+  userCount: number
 }
