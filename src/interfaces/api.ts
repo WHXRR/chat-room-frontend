@@ -104,3 +104,11 @@ export async function createGroup(name: string) {
     params: { name },
   })
 }
+
+export async function updateGroup(chatroomId: number, name: string) {
+  return await axiosInstance.put(`/chatroom/${chatroomId}`, { name })
+}
+
+export async function delGroup(chatroomId: number) {
+  return await axiosInstance.delete(`/chatroom/${chatroomId}`)
+}

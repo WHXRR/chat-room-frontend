@@ -2,6 +2,8 @@ import {
   createGroup,
   getNotJoinedChatroomList,
   getJoinedChatroomList,
+  updateGroup,
+  delGroup,
 } from '@/interfaces/api'
 import type { Chatroom } from '@/types/chat'
 import { Button, Form, Input, message, Modal, type FormProps } from 'antd'
@@ -21,7 +23,6 @@ export function ChatroomList() {
       console.warn(e)
     }
   }
-
   useEffect(() => {
     getList()
   }, [])
@@ -29,13 +30,34 @@ export function ChatroomList() {
   const [groupModel, setGroupModel] = useState(false)
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
+  const [selectedGroup, setSelectedGroup] = useState<Chatroom | null>(null)
+  const updateChatroom = async (item: Chatroom) => {
+    setSelectedGroup(item)
+    setGroupModel(true)
+    form.setFieldValue('name', item.name)
+  }
+  const onCancel = () => {
+    setSelectedGroup(null)
+    setGroupModel(false)
+    form.setFieldValue('name', '')
+  }
   const onFinish: FormProps['onFinish'] = async (values: { name: string }) => {
     setLoading(true)
     try {
-      const res = await createGroup(values.name)
+      let res = {
+        status: 0,
+      }
+      let msg = ''
+      if (selectedGroup) {
+        res = await updateGroup(selectedGroup.id, values.name)
+        msg = '修改成功'
+      } else {
+        res = await createGroup(values.name)
+        msg = '创建成功'
+      }
       if (res.status === 200 || res.status === 201) {
-        message.success('创建成功')
-        setGroupModel(false)
+        message.success(msg)
+        onCancel()
         getList()
       }
     } catch (e) {
@@ -44,27 +66,49 @@ export function ChatroomList() {
       setLoading(false)
     }
   }
+
+  const deleteGroup = async (item: Chatroom) => {
+    try {
+      const res = await delGroup(item.id)
+      if (res.status === 200 || res.status === 201) {
+        message.success('删除成功')
+        getList()
+      }
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   return (
     <div className="p-4">
       <div className="pb-10">
         <div className="pb-2 font-bold">已加入的群聊</div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
           {joinedList.map((item) => (
-            <ChatroomBox key={item.id} {...item} />
+            <ChatroomBox
+              key={item.id}
+              {...item}
+              delGroup={() => deleteGroup(item)}
+              updateChatroom={() => updateChatroom(item)}
+            />
           ))}
         </div>
       </div>
       <div className="pb-2 font-bold">未加入的群聊</div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
         {notJoinedList.map((item) => (
-          <ChatroomBox key={item.id} {...item} />
+          <ChatroomBox
+            key={item.id}
+            {...item}
+            delGroup={() => deleteGroup(item)}
+          />
         ))}
         <div
-          className="border border-gray-300 cursor-pointer rounded-lg px-2 py-4 flex items-center justify-center"
+          className="border border-[#ef857d] cursor-pointer rounded-lg px-2 py-4 flex items-center justify-center hover:bg-[#ef857d] text-[#ef857d] hover:text-white transition-all"
           onClick={() => setGroupModel(true)}
         >
           <svg
-            className="w-5 text-gray-400"
+            className="w-5"
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
@@ -79,10 +123,10 @@ export function ChatroomList() {
         </div>
       </div>
       <Modal
-        title="创建群聊"
+        title={selectedGroup ? '修改群聊' : '创建群聊'}
         closable={{ 'aria-label': 'Custom Close Button' }}
         open={groupModel}
-        onCancel={() => setGroupModel(false)}
+        onCancel={onCancel}
         footer={null}
       >
         <Form

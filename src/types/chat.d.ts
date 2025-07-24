@@ -82,4 +82,6 @@ export interface Chatroom {
   name: string
   updateTime: Date
   userCount: number
+  delGroup: () => void
+  updateChatroom: () => void
 }
