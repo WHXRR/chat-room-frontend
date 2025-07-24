@@ -85,7 +85,6 @@ export function Header() {
     if (catContainerRef.current && catRef.current) {
       const containerWidth = catContainerRef.current.offsetWidth
       const catWidth = catRef.current.offsetWidth
-      console.log(containerWidth, catWidth)
       const distance = containerWidth - catWidth
       const speed = 100
       const duration = (distance * 2) / speed

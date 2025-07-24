@@ -17,7 +17,7 @@ const UserDisplay = (props: UserInfo) => {
         ) : (
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-red-500 rounded-full"></div>
         )}
-        <div className="overflow-hidden text-ellipsis flex-1 leading-none">
+        <div className="overflow-hidden text-ellipsis flex-1 leading-none whitespace-nowrap text-[10px]">
           {props.username}
         </div>
       </div>
@@ -69,7 +69,7 @@ export function ChatroomMembers() {
         onCancel={handleCancel}
         footer={null}
       >
-        <div className="grid grid-cols-5 md:grid-cols-8 gap-3 pt-4">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 pt-4">
           {members.map((item) => {
             return <UserDisplay key={item.id} {...item} />
           })}

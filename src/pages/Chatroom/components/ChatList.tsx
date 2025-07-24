@@ -17,7 +17,7 @@ export function ChatList() {
     try {
       const res = await getHistoryMessage(1, offset, 10)
       if (res.status === 200 || res.status === 201) {
-        const newMessages = res.data.data || []
+        const newMessages = res.data.data.reverse() || []
         setHistoryMessageList((prev) => [...newMessages, ...prev])
         setOffset((prev) => prev + newMessages.length)
         if (!res.data.hasMore) {

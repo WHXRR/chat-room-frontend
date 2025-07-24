@@ -1,7 +1,7 @@
 import useStore from '@/store'
 import type { SendMessagePayload } from '@/types/chat'
 import { getSocket } from '@/utils/socketClient'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import ChatEmoji from './ChatEmoji'
 import { insertEmoji, transformEmojiHtmlToText } from '@/utils/insertEmoji'
 
@@ -51,6 +51,12 @@ export function ChatInput() {
     },
     [savedRange],
   )
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
 
   return (
     <div className="h-full flex flex-col">
