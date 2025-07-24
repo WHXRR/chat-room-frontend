@@ -76,7 +76,15 @@ export async function addChatroom(chatroomId: number) {
 }
 
 export async function getJoinedChatroomList(name?: string) {
-  return await axiosInstance.get('/chatroom/joinedGroupList', {
+  return await axiosInstance.get('/chatroom/joined-list', {
+    params: {
+      name,
+    },
+  })
+}
+
+export async function getNotJoinedChatroomList(name?: string) {
+  return await axiosInstance.get('/chatroom/not-joined-list', {
     params: {
       name,
     },

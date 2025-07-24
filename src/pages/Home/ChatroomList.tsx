@@ -1,6 +1,6 @@
 import {
   createGroup,
-  getChatroomList,
+  getNotJoinedChatroomList,
   getJoinedChatroomList,
 } from '@/interfaces/api'
 import type { Chatroom } from '@/types/chat'
@@ -9,29 +9,21 @@ import { useEffect, useState } from 'react'
 import { ChatroomBox } from './components/ChatroomBox'
 
 export function ChatroomList() {
-  const [list, setList] = useState<Chatroom[]>([])
-  const chatroomList = async () => {
-    try {
-      const res = await getChatroomList()
-      setList(res.data)
-    } catch (e) {
-      console.warn(e)
-    }
-  }
-
+  const [notJoinedList, setNotJoinedList] = useState<Chatroom[]>([])
   const [joinedList, setJoinedList] = useState<Chatroom[]>([])
-  const joinedChatroomList = async () => {
+  const getList = async () => {
     try {
-      const res = await getJoinedChatroomList()
-      setJoinedList(res.data)
+      const res1 = await getNotJoinedChatroomList()
+      setNotJoinedList(res1.data)
+      const res2 = await getJoinedChatroomList()
+      setJoinedList(res2.data)
     } catch (e) {
       console.warn(e)
     }
   }
 
   useEffect(() => {
-    chatroomList()
-    joinedChatroomList()
+    getList()
   }, [])
 
   const [groupModel, setGroupModel] = useState(false)
@@ -44,7 +36,7 @@ export function ChatroomList() {
       if (res.status === 200 || res.status === 201) {
         message.success('创建成功')
         setGroupModel(false)
-        chatroomList()
+        getList()
       }
     } catch (e) {
       console.warn(e)
@@ -62,13 +54,13 @@ export function ChatroomList() {
           ))}
         </div>
       </div>
-      <div className="pb-2 font-bold">所有群聊</div>
+      <div className="pb-2 font-bold">未加入的群聊</div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
-        {list.map((item) => (
+        {notJoinedList.map((item) => (
           <ChatroomBox key={item.id} {...item} />
         ))}
         <div
-          className="border border-gray-300 cursor-pointer rounded-lg p-2 flex items-center justify-center"
+          className="border border-gray-300 cursor-pointer rounded-lg px-2 py-4 flex items-center justify-center"
           onClick={() => setGroupModel(true)}
         >
           <svg
