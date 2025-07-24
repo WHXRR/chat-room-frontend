@@ -42,10 +42,16 @@ export async function updateInfo(data: UpdateUserInfoType) {
   return await axiosInstance.post('/user/update', data)
 }
 
-export async function getHistoryMessage(chatroomId: number) {
+export async function getHistoryMessage(
+  chatroomId: number,
+  offset: number,
+  limit: number,
+) {
   return await axiosInstance.get('/chat-history/list', {
     params: {
       chatroomId,
+      offset,
+      limit,
     },
   })
 }

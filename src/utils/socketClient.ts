@@ -17,7 +17,7 @@ export function initSocket(userInfo: UserInfo, chatroomId: number) {
   socket = io(import.meta.env.VITE_SOCKET_URL, {
     transports: ['websocket'],
     reconnection: true,
-    reconnectionAttempts: 5,
+    reconnectionAttempts: 50,
   })
 
   const payload = {

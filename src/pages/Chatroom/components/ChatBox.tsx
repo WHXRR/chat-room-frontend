@@ -3,7 +3,7 @@ import type {
   JoinRoomMessageType,
   SendMessage,
 } from '@/types/chat'
-import { Avatar } from './Avatar'
+import { Avatar } from '../../../components/Avatar'
 import useStore from '@/store'
 import { useEffect, useRef, useState } from 'react'
 import { transformTextToEmojiHtml } from '@/utils/insertEmoji'
