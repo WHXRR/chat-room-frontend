@@ -89,7 +89,7 @@ export default function Home() {
               <Form
                 form={form}
                 colon={false}
-                autoComplete="off"
+                autoComplete="on"
                 size="large"
                 onFinish={onFinish}
                 className="home-form"

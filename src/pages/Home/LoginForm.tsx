@@ -11,7 +11,7 @@ export function LoginForm({
         name="email"
         rules={[{ required: true, message: '请输入邮箱!' }]}
       >
-        <Input placeholder="邮箱" />
+        <Input placeholder="邮箱" autoFocus />
       </Form.Item>
 
       <Form.Item
