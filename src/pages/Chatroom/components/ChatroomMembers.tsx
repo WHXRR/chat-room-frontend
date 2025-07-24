@@ -8,7 +8,7 @@ import { getChatroomMembers } from '@/interfaces/api'
 import { useParams } from 'react-router-dom'
 
 const UserDisplay = (props: UserInfo) => {
-  const { onlineUserIds } = useStore()
+  const { onlineUserIds, userInfo } = useStore()
   return (
     <div className="text-xs text-center" title={props.username}>
       <Avatar headPic={props.headPic} className="w-7 mx-auto" />
@@ -19,7 +19,8 @@ const UserDisplay = (props: UserInfo) => {
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 mt-0.5 bg-red-500 rounded-full"></div>
         )}
         <div className="overflow-hidden text-ellipsis flex-1 leading-none whitespace-nowrap text-[10px]">
-          {props.username}
+          {props.id === userInfo.id && <span>(我)</span>}
+          <span>{props.username}</span>
         </div>
       </div>
     </div>

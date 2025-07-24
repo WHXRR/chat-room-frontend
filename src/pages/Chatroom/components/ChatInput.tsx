@@ -4,20 +4,22 @@ import { getSocket } from '@/utils/socketClient'
 import { useCallback, useEffect, useRef } from 'react'
 import ChatEmoji from './ChatEmoji'
 import { insertEmoji, transformEmojiHtmlToText } from '@/utils/insertEmoji'
+import { useParams } from 'react-router-dom'
 
 export function ChatInput() {
   const { userInfo } = useStore()
   const socket = getSocket()
   const inputRef = useRef<HTMLDivElement>(null)
+  const { id } = useParams()
   const sendMessage = () => {
     if (!inputRef.current) return
     const html = inputRef.current.innerHTML
     const text = transformEmojiHtmlToText(html).trim()
-    if (!text) return
+    if (!text || !id) return
 
     const payload: SendMessagePayload = {
       userId: userInfo.id,
-      chatroomId: 1,
+      chatroomId: +id,
       message: {
         type: 'text',
         content: text,

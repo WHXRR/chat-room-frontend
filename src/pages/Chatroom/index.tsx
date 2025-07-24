@@ -46,7 +46,7 @@ export default function Chatroom() {
           <div className="flex-1">
             <Container />
           </div>
-          <div className="w-[250px] p-2 hidden md:block border-l border-gray-200">
+          <div className="w-[270px] p-2 hidden md:block border-l border-gray-200">
             <Config />
           </div>
         </div>
