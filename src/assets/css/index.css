@@ -22,10 +22,10 @@
     transform: translateX(0) scaleX(1);
   }
   50% {
-    transform: translateX(var(--max-move, 200px)) scaleX(1);
+    transform: translateX(var(--max-move)) scaleX(1);
   }
   51% {
-    transform: translateX(var(--max-move, 200px)) scaleX(-1);
+    transform: translateX(var(--max-move)) scaleX(-1);
   }
   100% {
     transform: translateX(0) scaleX(-1);

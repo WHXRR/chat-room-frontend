@@ -21,7 +21,7 @@ export function initSocket(userInfo: UserInfo, chatroomId: number) {
   })
 
   const payload = {
-    chatroomId,
+    chatroomId: +chatroomId,
     userId: userInfo.id,
     username: userInfo.username,
   }

@@ -3,7 +3,15 @@ import { getUserInfo, updateInfo } from '@/interfaces/api'
 import useStore from '@/store'
 import type { UpdateUserInfoType } from '@/types/user'
 import getAllAvatar from '@/utils/getAllAvatar'
-import { App, Button, Form, Input, Modal, type FormProps } from 'antd'
+import {
+  App,
+  Button,
+  Form,
+  Input,
+  Modal,
+  Popconfirm,
+  type FormProps,
+} from 'antd'
 import { useContext, useEffect, useRef, useState } from 'react'
 import CatImage from '@/assets/images/cat.png'
 import { ChatroomContext } from '@/context/ChatroomContext'
@@ -70,12 +78,14 @@ export function Header() {
     clearUserInfo()
   }
 
+  const chatroomInfo = useContext(ChatroomContext)
   const catContainerRef = useRef<HTMLDivElement>(null)
   const catRef = useRef<HTMLImageElement>(null)
   useEffect(() => {
     if (catContainerRef.current && catRef.current) {
       const containerWidth = catContainerRef.current.offsetWidth
       const catWidth = catRef.current.offsetWidth
+      console.log(containerWidth, catWidth)
       const distance = containerWidth - catWidth
       const speed = 100
       const duration = (distance * 2) / speed
@@ -83,9 +93,7 @@ export function Header() {
       catRef.current.style.setProperty('--max-move', `${distance}px`)
       catRef.current.style.setProperty('--walk-duration', `${duration}s`)
     }
-  }, [])
-
-  const chatroomInfo = useContext(ChatroomContext)
+  }, [chatroomInfo])
 
   return (
     <div className="flex justify-between">
@@ -101,36 +109,45 @@ export function Header() {
           ref={catRef}
         />
       </div>
-      <div
-        className="flex items-center cursor-pointer py-2"
-        onClick={() => setUserConfigModal(true)}
-      >
-        <Avatar
-          headPic={userInfo.headPic ? userInfo.headPic : 'baimao'}
-          className="w-7"
-        />
-        <div className="pl-2">{userInfo.username}</div>
-        <svg
-          className="w-5 h-5 ml-5 cursor-pointer"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          p-id="5537"
-          width="128"
-          height="128"
-          onClick={logout}
+      <div className="flex items-center py-2">
+        <div
+          className="cursor-pointer flex items-center"
+          onClick={() => setUserConfigModal(true)}
         >
-          <path
-            d="M689.664 172.992l0 133.781333c89.28 58.176 148.394667 158.698667 148.394667 273.216 0 180.032-145.984 325.994667-326.058667 325.994667-180.032 0-326.016-145.962667-326.016-325.994667 0-101.781333 46.634667-192.618667 119.722667-252.437333L305.706667 186.773333C164.373333 261.098667 67.968 409.216 67.968 579.946667 67.968 825.173333 266.794667 1024 512.042667 1024c245.205333 0 443.989333-198.826667 443.989333-444.053333C956.010667 397.888 846.464 241.536 689.664 172.992z"
-            fill="#231815"
-            p-id="5538"
-          ></path>
-          <path
-            d="M577.344 459.989333c0 28.693333-29.248 51.989333-65.344 51.989333l0 0c-36.053333 0-65.322667-23.274667-65.322667-51.989333L446.677333 51.989333C446.677333 23.274667 475.946667 0 512 0l0 0c36.096 0 65.344 23.274667 65.344 51.989333L577.344 459.989333z"
-            fill="#231815"
-            p-id="5539"
-          ></path>
-        </svg>
+          <Avatar
+            headPic={userInfo.headPic ? userInfo.headPic : 'baimao'}
+            className="w-7"
+          />
+          <div className="pl-2">{userInfo.username}</div>
+        </div>
+        <Popconfirm
+          title="确定要退出登录吗？"
+          placement="leftTop"
+          onConfirm={logout}
+          okText="Yes"
+          cancelText="No"
+        >
+          <svg
+            className="w-5 h-5 ml-5 cursor-pointer"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="5537"
+            width="128"
+            height="128"
+          >
+            <path
+              d="M689.664 172.992l0 133.781333c89.28 58.176 148.394667 158.698667 148.394667 273.216 0 180.032-145.984 325.994667-326.058667 325.994667-180.032 0-326.016-145.962667-326.016-325.994667 0-101.781333 46.634667-192.618667 119.722667-252.437333L305.706667 186.773333C164.373333 261.098667 67.968 409.216 67.968 579.946667 67.968 825.173333 266.794667 1024 512.042667 1024c245.205333 0 443.989333-198.826667 443.989333-444.053333C956.010667 397.888 846.464 241.536 689.664 172.992z"
+              fill="#231815"
+              p-id="5538"
+            ></path>
+            <path
+              d="M577.344 459.989333c0 28.693333-29.248 51.989333-65.344 51.989333l0 0c-36.053333 0-65.322667-23.274667-65.322667-51.989333L446.677333 51.989333C446.677333 23.274667 475.946667 0 512 0l0 0c36.096 0 65.344 23.274667 65.344 51.989333L577.344 459.989333z"
+              fill="#231815"
+              p-id="5539"
+            ></path>
+          </svg>
+        </Popconfirm>
       </div>
       <Modal
         title="修改信息"
