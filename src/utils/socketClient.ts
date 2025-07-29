@@ -27,12 +27,17 @@ export function initSocket(userInfo: UserInfo, chatroomId: number) {
   }
 
   socket.on('connect', async () => {
-    const res = await addChatroom(chatroomId)
-    if (res.data.code === 200) {
-      message.success(res.data.message)
-      socket?.emit('joinRoom', payload)
+    try {
+      const res = await addChatroom(chatroomId)
+      if (res.data.code === 200) {
+        message.success(res.data.message)
+        socket?.emit('joinRoom', payload)
+      }
+      socket?.emit('userOnline', payload)
+    } catch (e) {
+      console.warn(e)
+      window.location.href = '/home'
     }
-    socket?.emit('userOnline', payload)
   })
 
   socket.on('reconnect', () => {

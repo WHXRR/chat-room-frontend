@@ -9,6 +9,7 @@ import type { Chatroom } from '@/types/chat'
 import { Button, Form, Input, message, Modal, type FormProps } from 'antd'
 import { useEffect, useState } from 'react'
 import { ChatroomBox } from './components/ChatroomBox'
+import { WithPermission } from '@/components/WithPermission'
 
 export function ChatroomList() {
   const [notJoinedList, setNotJoinedList] = useState<Chatroom[]>([])
@@ -103,24 +104,27 @@ export function ChatroomList() {
             delGroup={() => deleteGroup(item)}
           />
         ))}
-        <div
-          className="border border-[#ef857d] cursor-pointer rounded-lg px-2 py-4 flex items-center justify-center hover:bg-[#ef857d] text-[#ef857d] hover:text-white transition-all"
-          onClick={() => setGroupModel(true)}
-        >
-          <svg
-            className="w-5"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="4956"
-            fill="currentColor"
+
+        <WithPermission>
+          <div
+            className="border border-[#ef857d] cursor-pointer rounded-lg px-2 py-4 flex items-center justify-center hover:bg-[#ef857d] text-[#ef857d] hover:text-white transition-all"
+            onClick={() => setGroupModel(true)}
           >
-            <path
-              d="M925.696 384q19.456 0 37.376 7.68t30.72 20.48 20.48 30.72 7.68 37.376q0 20.48-7.68 37.888t-20.48 30.208-30.72 20.48-37.376 7.68l-287.744 0 0 287.744q0 20.48-7.68 37.888t-20.48 30.208-30.72 20.48-37.376 7.68q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-37.888l0-287.744-287.744 0q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-37.888q0-19.456 7.68-37.376t20.48-30.72 30.208-20.48 37.888-7.68l287.744 0 0-287.744q0-19.456 7.68-37.376t20.48-30.72 30.208-20.48 37.888-7.68q39.936 0 68.096 28.16t28.16 68.096l0 287.744 287.744 0z"
-              p-id="4957"
-            ></path>
-          </svg>
-        </div>
+            <svg
+              className="w-5"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="4956"
+              fill="currentColor"
+            >
+              <path
+                d="M925.696 384q19.456 0 37.376 7.68t30.72 20.48 20.48 30.72 7.68 37.376q0 20.48-7.68 37.888t-20.48 30.208-30.72 20.48-37.376 7.68l-287.744 0 0 287.744q0 20.48-7.68 37.888t-20.48 30.208-30.72 20.48-37.376 7.68q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-37.888l0-287.744-287.744 0q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-37.888q0-19.456 7.68-37.376t20.48-30.72 30.208-20.48 37.888-7.68l287.744 0 0-287.744q0-19.456 7.68-37.376t20.48-30.72 30.208-20.48 37.888-7.68q39.936 0 68.096 28.16t28.16 68.096l0 287.744 287.744 0z"
+                p-id="4957"
+              ></path>
+            </svg>
+          </div>
+        </WithPermission>
       </div>
       <Modal
         title={selectedGroup ? '修改群聊' : '创建群聊'}

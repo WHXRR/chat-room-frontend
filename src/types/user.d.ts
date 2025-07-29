@@ -33,4 +33,5 @@ export interface UserInfo {
   id: number
   token: string
   updateTime: string
+  role: 'admin' | 'user'
 }

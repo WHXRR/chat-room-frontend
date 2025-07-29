@@ -27,6 +27,7 @@ const useStore = create<StoreState>()(
         id: 0,
         token: '',
         updateTime: '',
+        role: 'user',
       },
       updateUserInfo: (data) => set({ userInfo: data }),
       clearUserInfo: () =>
@@ -39,6 +40,7 @@ const useStore = create<StoreState>()(
             id: 0,
             token: '',
             updateTime: '',
+            role: 'user',
           },
         }),
       messageList: [],
